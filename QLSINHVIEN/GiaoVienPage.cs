@@ -180,24 +180,31 @@ namespace QLSINHVIEN
                 SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
                 //
                 
-                ds_GV.Tables["Giaovien"].Rows.Add(maGV.Text.Trim(), cbQQ.SelectedValue,TenGV.Text.Trim(),cbGender.SelectedValue,Common.getFormatDateStore(dateTimePicker1.Text));
-                int kt = adapter.Update(ds_GV, "Giaovien");
-                if (kt <= 0)
+                try
                 {
-                    MessageBox.Show("Thêm thất bại");
+                    ds_GV.Tables["Giaovien"].Rows.Add(maGV.Text.Trim(), cbQQ.SelectedValue, TenGV.Text.Trim(), cbGender.SelectedValue, Common.getFormatDateStore(dateTimePicker1.Text));
+                    int kt = adapter.Update(ds_GV, "Giaovien");
+                    if (kt <= 0)
+                    {
+                        MessageBox.Show("Thêm thất bại");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Thêm thành công");
+                    }
+                    //
+                    Bitmap bitmap = Properties.Resources.icons8_add_32;
+                    button1.Image = bitmap;
+                    button1.Text = "      Thêm";
+                    //
+                    maGV.Enabled = false;
+                    UnBinding();
+                    Binding();
                 }
-                else
+                catch
                 {
-                    MessageBox.Show("Thêm thành công");
+                    MessageBox.Show("có lỗi xảy ra", "THem giao vien");
                 }
-                //
-                Bitmap bitmap = Properties.Resources.icons8_add_32;
-                button1.Image = bitmap;
-                button1.Text = "      Thêm";
-                //
-                maGV.Enabled = false;
-                UnBinding();
-                Binding();
             }
             modeThem = !modeThem;
         }

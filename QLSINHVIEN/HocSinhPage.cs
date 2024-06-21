@@ -142,24 +142,31 @@ namespace QLSINHVIEN
                 SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
                 //
 
-                ds_SV.Tables["HocSinh"].Rows.Add(maHS.Text.Trim(), cbQQ.SelectedValue,cbMaLop.SelectedValue, TenHs.Text.Trim(), cbGender.SelectedValue, Common.getFormatDateStore(dateTimePicker1.Text));
-                int kt = adapter.Update(ds_SV, "HocSinh");
-                if (kt <= 0)
+                try
                 {
-                    MessageBox.Show("Thêm thất bại");
+                    ds_SV.Tables["HocSinh"].Rows.Add(maHS.Text.Trim(), cbQQ.SelectedValue, cbMaLop.SelectedValue, TenHs.Text.Trim(), cbGender.SelectedValue, Common.getFormatDateStore(dateTimePicker1.Text));
+                    int kt = adapter.Update(ds_SV, "HocSinh");
+                    if (kt <= 0)
+                    {
+                        MessageBox.Show("Thêm thất bại");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Thêm thành công");
+                    }
+                    //
+                    Bitmap bitmap = Properties.Resources.icons8_add_32;
+                    button1.Image = bitmap;
+                    button1.Text = "      Thêm";
+                    //
+                    maHS.Enabled = false;
+                    UnBinding();
+                    Binding();
                 }
-                else
+                catch
                 {
-                    MessageBox.Show("Thêm thành công");
+                    MessageBox.Show("có lỗi xảy ra");
                 }
-                //
-                Bitmap bitmap = Properties.Resources.icons8_add_32;
-                button1.Image = bitmap;
-                button1.Text = "      Thêm";
-                //
-                maHS.Enabled = false;
-                UnBinding();
-                Binding();
             }
             modeThem = !modeThem;
         }
